@@ -11,6 +11,7 @@ import (
 	"image/png"
 	"image/jpeg"
 	"errors"
+	"strconv"
 
 	"github.com/gorilla/mux"
 	"github.com/disintegration/imaging"
@@ -54,7 +55,7 @@ func readImage(r *http.Request) (image.Image, string, error) {
 		return nil, "", errors.New("image format not supported")
 	}
 
-	return img, imgType, nil
+		return img, imgType, nil
 }
 
 func writeImage(w http.ResponseWriter, img image.Image, imgType string) error {
@@ -82,17 +83,40 @@ func writeImage(w http.ResponseWriter, img image.Image, imgType string) error {
 func changeBrightness(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
-	var img image.Image
-	var imgType string
-	var err error
-	if img, imgType, err = readImage(r); err != nil {
+	vals := r.URL.Query()
+	valIntensity, okIntensity := vals["intensity"];
+	if !okIntensity {
+		log.Printf("Error getting intenstiy")
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	strIntensity := valIntensity[0]
+	if strIntensity == "" {
+		log.Printf("var intensity is empty")
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
-	img = imaging.AdjustBrightness(img, 20);
+	var err error
+	var intensity float64
+	if intensity, err = strconv.ParseFloat(strIntensity, 64); err != nil {
+		log.Printf(err.Error())
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	var img image.Image
+	var imgType string
+	if img, imgType, err = readImage(r); err != nil {
+		log.Printf(err.Error())
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	img = imaging.AdjustBrightness(img, intensity);
 
 	if err = writeImage(w, img, imgType); err != nil {
+		log.Printf(err.Error())
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -100,7 +124,7 @@ func changeBrightness(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	router := mux.NewRouter()
-    router.HandleFunc("/brightness/", changeBrightness).Methods("POST")
+    router.HandleFunc("/brightness", changeBrightness).Methods("POST")
 	log.Printf("Listening on :8080...\n")
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
