@@ -81,6 +81,7 @@ func writeImage(w http.ResponseWriter, img image.Image, imgType string) error {
 }
 
 func changeBrightness(w http.ResponseWriter, r *http.Request) {
+	log.Printf("Solicitation received")
 	w.Header().Set("Content-Type", "application/json")
 
 	vals := r.URL.Query()
@@ -120,11 +121,31 @@ func changeBrightness(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
+
+	log.Printf("Solicitation processed")
+}
+
+func testConnection(w http.ResponseWriter, r *http.Request) {
+	log.Printf("Test solicitation received")
+
+	var retPayload ImageJson
+	retPayload.PayloadBase64 = "Teste";
+	if err := json.NewEncoder(w).Encode(retPayload); err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		log.Printf("Error %s\n", err)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	w.Header().Set("Content-Type", "application/json")
+
+	log.Printf("Test solicitation processed")
 }
 
 func main() {
 	router := mux.NewRouter()
     router.HandleFunc("/brightness", changeBrightness).Methods("POST")
+    router.HandleFunc("/test", testConnection).Methods("GET")
 	log.Printf("Listening on :8080...\n")
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
