@@ -1,0 +1,37 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"checksumSHA1": "xN34bar6n9kkjxjWt/GvnqbFwnQ=",
+			"path": "github.com/disintegration/imaging",
+			"revision": "bbcee2f5c9d5e94ca42c8b50ec847fec64a6c134",
+			"revisionTime": "2018-05-08T19:53:14Z"
+		},
+		{
+			"checksumSHA1": "P1ViKhNCsrYSMOFAMl+pwP9+vf8=",
+			"path": "github.com/gorilla/mux",
+			"revision": "e0b5abaaae35242fa74372f26c24107711702a4e",
+			"revisionTime": "2018-05-26T22:17:21Z"
+		},
+		{
+			"checksumSHA1": "UD/pejajPyS7WaWVXq2NU1eK4Ic=",
+			"path": "golang.org/x/image/bmp",
+			"revision": "426cfd8eeb6e08ab1932954e09e3c2cb2bc6e36d",
+			"revisionTime": "2017-05-14T06:33:48Z"
+		},
+		{
+			"checksumSHA1": "SmD/LkP3vgBGPKT6I38wH7Jb6QI=",
+			"path": "golang.org/x/image/tiff",
+			"revision": "426cfd8eeb6e08ab1932954e09e3c2cb2bc6e36d",
+			"revisionTime": "2017-05-14T06:33:48Z"
+		},
+		{
+			"checksumSHA1": "PF6VjvpNpOdR8epWH1Liyy7x1Qg=",
+			"path": "golang.org/x/image/tiff/lzw",
+			"revision": "426cfd8eeb6e08ab1932954e09e3c2cb2bc6e36d",
+			"revisionTime": "2017-05-14T06:33:48Z"
+		}
+	],
+	"rootPath": "ProcessamentoImagensGoService"
+}
