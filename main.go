@@ -158,7 +158,6 @@ func main() {
 	router.HandleFunc("/brightness", changeBrightness).Methods("POST")
 	router.HandleFunc("/test", testConnection).Methods("GET")
 	router.HandleFunc("/", mainHandler).Methods("GET")
-	router.HandleFunc("/favicon.ico", mainHandler).Methods("GET")
 	log.Printf("Listening on :%s...\n", port)
 	log.Fatal(http.ListenAndServe(":" + port, router))
 }
