@@ -143,6 +143,10 @@ func testConnection(w http.ResponseWriter, r *http.Request) {
 	log.Printf("Test solicitation processed")
 }
 
+func mainHandler(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusOK)
+}
+
 func main() {
 	port := os.Getenv("PORT")
 
@@ -153,6 +157,8 @@ func main() {
 	router := mux.NewRouter()
 	router.HandleFunc("/brightness", changeBrightness).Methods("POST")
 	router.HandleFunc("/test", testConnection).Methods("GET")
+	router.HandleFunc("/", mainHandler).Methods("GET")
+	router.HandleFunc("/favicon.ico", mainHandler).Methods("GET")
 	log.Printf("Listening on :%s...\n", port)
 	log.Fatal(http.ListenAndServe(":" + port, router))
 }
