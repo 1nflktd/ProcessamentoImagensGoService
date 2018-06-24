@@ -12,6 +12,7 @@ import (
 	"image/jpeg"
 	"errors"
 	"strconv"
+	"os"
 
 	"github.com/gorilla/mux"
 	"github.com/disintegration/imaging"
@@ -143,9 +144,15 @@ func testConnection(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	port := os.Getenv("PORT")
+
+	if port == "" {
+		log.Fatal("$PORT must be set")
+	}
+
 	router := mux.NewRouter()
-    router.HandleFunc("/brightness", changeBrightness).Methods("POST")
-    router.HandleFunc("/test", testConnection).Methods("GET")
-	log.Printf("Listening on :8080...\n")
-	log.Fatal(http.ListenAndServe(":8080", router))
+	router.HandleFunc("/brightness", changeBrightness).Methods("POST")
+	router.HandleFunc("/test", testConnection).Methods("GET")
+	log.Printf("Listening on :%s...\n", port)
+	log.Fatal(http.ListenAndServe(":" + port, router))
 }
