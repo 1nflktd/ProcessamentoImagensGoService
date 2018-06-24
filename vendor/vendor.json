@@ -39,5 +39,8 @@
 			"revisionTime": "2017-05-14T06:33:48Z"
 		}
 	],
-	"rootPath": "ProcessamentoImagensGoService"
+	"rootPath": "ProcessamentoImagensGoService",
+	"heroku": {
+		"install": ["../src/..."]
+	}
 }
