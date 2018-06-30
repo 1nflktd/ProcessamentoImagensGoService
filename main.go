@@ -20,6 +20,17 @@ func changeBrightness(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func changeContrast(w http.ResponseWriter, r *http.Request) {
+	api := HttpApiNew(w, r)
+	if err := api.Init(); err != nil {
+		return
+	}
+	api.Image.changeContrast(api.Parameters.Intensity)
+	if err := api.writeImage(); err != nil {
+		return
+	}
+}
+
 func blurImage(w http.ResponseWriter, r *http.Request) {
 	api := HttpApiNew(w, r)
 	if err := api.Init(); err != nil {
@@ -72,6 +83,7 @@ func main() {
 
 	router := mux.NewRouter()
 	router.HandleFunc("/brightness", changeBrightness).Methods("POST")
+	router.HandleFunc("/contrast", changeContrast).Methods("POST")
 	router.HandleFunc("/sharpen", sharpenImage).Methods("POST")
 	router.HandleFunc("/blur", blurImage).Methods("POST")
 	router.HandleFunc("/test", testConnection).Methods("GET")

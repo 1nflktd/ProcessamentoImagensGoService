@@ -29,3 +29,7 @@ func (image *Image) blur(intensity float64)  {
 func (image *Image) sharpen(intensity float64)  {
 	image.Image = imaging.Sharpen(image.Image, intensity);
 }
+
+func (image *Image) changeContrast(intensity float64) {
+	image.Image = imaging.AdjustContrast(image.Image, intensity);
+}
